@@ -11,16 +11,28 @@ Doctrine2 multi-platform support for spatial types and functions. Currently MySQ
 
 Documentation can be found at [here](./doc/index.md)
 
-## composer.json
-```javascript
-{
-    "require": {
-    	...
-        "creof/doctrine2-spatial": "~1"
+Add it in your app/config yml files
+```yaml
+doctrine:
+    dbal:
+        types:
+            point: Viny\PointType
+        default_connection: default
+        connections:
+            default:
+                driver: pdo_mysql
+                host: '%database_host%'
+                port: '%database_port%'
+                dbname: '%database_name%'
+                user: '%database_user%'
+                password: '%database_password%'
+                charset: UTF8
+                mapping_types:
+                    point: point
 ```
 
-You will also have to change the version requirement of doctrine to at least 2.3:
-```javascript
-
-        "doctrine/orm": ">=2.3",
-```
+Symfony Normalization is supported, just add the tag in your app/services yml file
+```yaml
+services:
+  Viny\PointNormalizer:
+    tags: ['serializer.normalizer']
